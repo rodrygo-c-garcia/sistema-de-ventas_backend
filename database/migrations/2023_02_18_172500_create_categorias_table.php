@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 30); // obligatorio
+            $table->text('detalle')->nullable();
             $table->timestamps();
         });
     }
