@@ -22,6 +22,7 @@ class Pedido extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(Producto::class)->wherePivot(['cantidad']);
+        // le especicficamos que nuestra tabla relacion tiene una columna que es "cantidad"
+        return $this->belongsToMany(Producto::class)->withPivot(["cantidad"]);
     }
 }
