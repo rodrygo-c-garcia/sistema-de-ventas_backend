@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 70);
-            $table->text('descripcion')->nullable();
-            $table->float('precio', 10, 2)->default(0);
+            $table->integer('cod_barras')->nullable();
+            $table->float('precio_compra', 10, 2)->default(0);
+            $table->float('precio_venta', 10, 2)->default(0);
+            $table->float('utilidad', 10, 2)->default(0);
             $table->integer('stock')->default(0);
             $table->string("imagen")->nullable();
             $table->boolean("estado")->default(1);
