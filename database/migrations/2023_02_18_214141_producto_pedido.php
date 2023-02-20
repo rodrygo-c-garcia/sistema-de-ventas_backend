@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('producto_id')->references('id')->on('productos');
 
             $table->integer('cantidad')->default(0);
+            $table->float('utilidad', 10, 2)->default(0);
         });
     }
 
