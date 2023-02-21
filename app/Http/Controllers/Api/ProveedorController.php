@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use NunoMaduro\Collision\Provider;
 
 class ProveedorController extends Controller
 {
@@ -20,7 +21,7 @@ class ProveedorController extends Controller
         $request->validate([
             'nombre_completo' => 'required',
             'telefono' => 'required|numeric|integer',
-            'correo_electronico' => 'required|email|unique:proveedors,email'
+            'correo_electronico' => 'required|email'
         ]);
 
         $proveedor = new Proveedor();
@@ -30,6 +31,38 @@ class ProveedorController extends Controller
         $proveedor->correo_electronico = $request->correo_electronico;
         $proveedor->save();
 
-        return response()->json(['mensaje' => 'Proveedor Rgistrado', 'data' => $proveedor], 201);
+        return response()->json(['mensaje' => 'Proveedor Registrado', 'data' => $proveedor], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $proveedor = Proveedor::where('id', $id)->first();
+
+        if ($proveedor) {
+            $proveedor->validate([
+                'nombre_completo' => 'required',
+                'telefono' => 'required|numeric|integer',
+                'correo_electronico' => 'required|email'
+            ]);
+
+            $proveedor->nombre_completo = $request->nombre_completo;
+            $proveedor->direccion = $request->direccion;
+            $proveedor->telefono = $request->telefono;
+            $proveedor->correo_electronico = $request->correo_electronico;
+            $proveedor->save();
+
+            return response()->json(['mensaje' => 'Proveedor Modificado', 'data' => $proveedor], 201);
+        }
+        return response()->json(['mensaje' => 'el proveedor no existe'], 400);
+    }
+
+    public function destroy($id)
+    {
+        $proveedor = Proveedor::where('id', $id)->first();
+        if ($proveedor) {
+            $proveedor->delete();
+            return response()->json(['mensaje' => 'Proveedor eliminado'], 201);
+        }
+        return response()->json(['mensaje' => 'el proveedor no existe'], 400);
     }
 }
