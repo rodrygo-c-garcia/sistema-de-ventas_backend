@@ -66,4 +66,14 @@ class ProductoController extends Controller
         }
         return response()->json(['mensaje' => 'El producto no existe'], 400);
     }
+
+    public function destroy($id)
+    {
+        $producto = Producto::where('id', $id)->first();
+        if ($producto) {
+            $producto->delete();
+            return response()->json(['mensaje' => 'Producto eliminado'], 204);
+        }
+        return response()->json(['mensaje' => 'El producto no se encuentra'], 400);
+    }
 }
