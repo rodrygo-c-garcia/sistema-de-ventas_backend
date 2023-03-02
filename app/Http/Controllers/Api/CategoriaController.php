@@ -29,4 +29,33 @@ class CategoriaController extends Controller
 
         return response()->json(['mensaje' => 'Categoria Registrada', 'data' => $categoria], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $categoria = Categoria::where('id', $id)->first();
+
+        if ($categoria) {
+            $request->validate([
+                'nombre' => 'required|max:50|min:3',
+            ]);
+
+            $categoria->nombre = $request->nombre;
+            $categoria->detalle = $request->detalle;
+            $categoria->save();
+
+            return response()->json(['mensaje' => 'categoria modificada', 'data' => $categoria], 201);
+        }
+        return response()->json(['mensaje' => 'la categoria no existe'], 400);
+    }
+
+    public function destroy($id)
+    {
+        $categoria = Categoria::where('id', $id)->first();
+
+        if ($categoria) {
+            $categoria->delete();
+            return response()->json(["mensaje" => "Categoria Eliminada"], 200);
+        }
+        return response()->json(["mensaje" => "No se encontro la categoria"], 404);
+    }
 }
