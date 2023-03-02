@@ -18,9 +18,9 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required',
-            'stock' => 'required',
-            'precio_compra' => 'required',
-            'precio_venta' => 'required',
+            'stock' => 'required|numeric',
+            'precio_compra' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
             //'imagen' => 'required|image|max:2048'
         ]);
 
@@ -47,9 +47,9 @@ class ProductoController extends Controller
         if ($producto) {
             $request->validate([
                 'nombre' => 'required|required',
-                'stock' => 'required',
-                'precio_compra' => 'required',
-                'precio_venta' => 'required',
+                'stock' => 'required|numeric',
+                'precio_compra' => 'required|numeric',
+                'precio_venta' => 'required|numeric',
             ]);
 
             $producto->nombre = $request->nombre;
