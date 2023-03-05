@@ -18,11 +18,17 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required',
-            'stock' => 'required',
-            'precio_compra' => 'required',
-            'precio_venta' => 'required',
-            //'imagen' => 'required|image|max:2048'
+            'stock' => 'required|numeric',
+            'precio_compra' => 'required|numeric',
+            'precio_venta' => 'required|numeric',
+            'imagen' => 'required|image'
         ]);
+
+        if (!$request->file('imagen')->isValid()) {
+            return response()->json(['error' => 'Error al cargar el archivo de imagen'], 400);
+        }
+        $imagen = $request->file('imagen')->store('public/imagenes');
+        $nombreArchivo = 'storage/imagenes/' . basename($imagen);
 
         $producto = new Producto();
         $producto->nombre = $request->nombre;
@@ -33,7 +39,7 @@ class ProductoController extends Controller
         $utilidad = $request->precio_venta - $request->precio_compra;
         $producto->utilidad = $utilidad;
         $producto->stock = $request->stock;
-        $producto->imagen = $request->imagen;
+        $producto->imagen = $nombreArchivo;
         $producto->categoria_id = $request->categoria_id;
         $producto->save();
 
@@ -47,9 +53,10 @@ class ProductoController extends Controller
         if ($producto) {
             $request->validate([
                 'nombre' => 'required|required',
-                'stock' => 'required',
-                'precio_compra' => 'required',
-                'precio_venta' => 'required',
+                'stock' => 'required|numeric',
+                'precio_compra' => 'required|numeric',
+                'precio_venta' => 'required|numeric',
+                'imagen' => 'image|max:2048'
             ]);
 
             $producto->nombre = $request->nombre;
@@ -60,6 +67,11 @@ class ProductoController extends Controller
             $producto->utilidad = $utilidad;
             $producto->stock = $request->stock;
             $producto->categoria_id = $request->categoria_id;
+
+            if ($request->hasFile('imagen')) {
+                // Si se envió una imagen, la guardamos en el servidor
+                $producto->imagen = $request->file('imagen')->store('public/imagenes');
+            }
             $producto->save();
 
             return response()->json(['mensaje' => 'Producto Modificado', 'data' => $producto], 201);
