@@ -10,7 +10,8 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $lista_productos = Producto::with('categoria')->get();
+        // especificamos las relaciones que tenemos en el modelo Producto categoria(), imagen()
+        $lista_productos = Producto::with(['categoria', 'imagen'])->get();
         return response()->json($lista_productos, 200);
     }
 
@@ -21,14 +22,7 @@ class ProductoController extends Controller
             'stock' => 'required|numeric',
             'precio_compra' => 'required|numeric',
             'precio_venta' => 'required|numeric',
-            'imagen' => 'required|image'
         ]);
-
-        if (!$request->file('imagen')->isValid()) {
-            return response()->json(['error' => 'Error al cargar el archivo de imagen'], 400);
-        }
-        $imagen = $request->file('imagen')->store('public/imagenes');
-        $nombreArchivo = 'storage/imagenes/' . basename($imagen);
 
         $producto = new Producto();
         $producto->nombre = $request->nombre;
@@ -39,7 +33,7 @@ class ProductoController extends Controller
         $utilidad = $request->precio_venta - $request->precio_compra;
         $producto->utilidad = $utilidad;
         $producto->stock = $request->stock;
-        $producto->imagen = $nombreArchivo;
+        $producto->imagen_id = $request->imagen_id;
         $producto->categoria_id = $request->categoria_id;
         $producto->save();
 
@@ -56,7 +50,6 @@ class ProductoController extends Controller
                 'stock' => 'required|numeric',
                 'precio_compra' => 'required|numeric',
                 'precio_venta' => 'required|numeric',
-                'imagen' => 'image|max:2048'
             ]);
 
             $producto->nombre = $request->nombre;
@@ -67,11 +60,7 @@ class ProductoController extends Controller
             $producto->utilidad = $utilidad;
             $producto->stock = $request->stock;
             $producto->categoria_id = $request->categoria_id;
-
-            if ($request->hasFile('imagen')) {
-                // Si se envió una imagen, la guardamos en el servidor
-                $producto->imagen = $request->file('imagen')->store('public/imagenes');
-            }
+            $producto->imagen_id = $request->imagen_id;
             $producto->save();
 
             return response()->json(['mensaje' => 'Producto Modificado', 'data' => $producto], 201);
