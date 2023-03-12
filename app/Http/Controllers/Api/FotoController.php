@@ -27,8 +27,30 @@ class FotoController extends Controller
         $imagen = new Foto();
         $imagen->id = $request->id;
         $imagen->url = $request->url;
+        $imagen->delete_url = $request->delete_url;
         $imagen->save();
 
         return response()->json(['mensaje' => 'Imagen Registrada', 'data' => $imagen], 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $imagen = Foto::where('id', $id)->first();
+
+        if ($imagen) {
+            // validar
+            $request->validate([
+                'id' => 'required|string|unique:fotos',
+                'url' => 'required',
+            ]);
+
+            // guardar
+            $imagen->id = $request->id;
+            $imagen->url = $request->url;
+            $imagen->delete_url = $request->delete_url;
+            $imagen->save();
+            return response()->json(['mensaje' => 'Imagen Registrada', 'data' => $imagen], 201);
+        }
+        return response()->json(['mensaje' => 'Imagen No encontrada'], 400);
     }
 }
