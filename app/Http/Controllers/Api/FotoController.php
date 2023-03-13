@@ -19,7 +19,6 @@ class FotoController extends Controller
     {
         // validar
         $request->validate([
-            'id' => 'required|string|unique:fotos',
             'url' => 'required',
         ]);
 
@@ -40,12 +39,10 @@ class FotoController extends Controller
         if ($imagen) {
             // validar
             $request->validate([
-                'id' => 'required|string|unique:fotos',
                 'url' => 'required',
             ]);
 
             // guardar
-            $imagen->id = $request->id;
             $imagen->url = $request->url;
             $imagen->delete_url = $request->delete_url;
             $imagen->save();
