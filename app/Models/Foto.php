@@ -10,8 +10,8 @@ class Foto extends Model
     use HasFactory;
     protected $table = 'fotos';
     // asignación masiva para los atributos id y url
-    protected $fillable = ['id', 'url'];
-    public $incrementing = false;
+    // protected $fillable = ['id', 'url'];
+    // public $incrementing = false;
 
     public function productos()
     {
