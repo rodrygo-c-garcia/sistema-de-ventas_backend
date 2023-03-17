@@ -32,5 +32,6 @@ Route::post('register', [SanctumAuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('perfil', [SanctumAuthController::class, 'perfil']);
+    Route::post('refresh', [SanctumAuthController::class, 'refresh']);
     Route::post('logout', [SanctumAuthController::class, 'logout']);
 });
