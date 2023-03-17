@@ -56,4 +56,16 @@ class SanctumAuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['mensaje' => 'Sesión cerrada']);
     }
+
+    public function refresh(Request $request)
+    {
+        $user = $request->user();
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+    }
 }
