@@ -32,4 +32,22 @@ class SanctumAuthController extends Controller
             return response()->json(["mensaje" => "Credenciales invalidas", "error" => true], 200);
         }
     }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique|unique:users',
+            'password' => 'required|confirmed',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        // encriptacion del password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['mensaje' => 'Usuario Logueado', 'data' => $user], 201);
+    }
 }
