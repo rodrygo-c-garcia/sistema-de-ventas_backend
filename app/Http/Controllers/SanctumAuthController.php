@@ -37,7 +37,7 @@ class SanctumAuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|confirmed',
         ]);
 
