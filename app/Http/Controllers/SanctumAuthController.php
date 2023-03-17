@@ -50,4 +50,10 @@ class SanctumAuthController extends Controller
 
         return response()->json(['mensaje' => 'Usuario Logueado', 'data' => $user], 201);
     }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['mensaje' => 'Sesión cerrada']);
+    }
 }
