@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class SanctumAuthController extends Controller
@@ -67,6 +68,11 @@ class SanctumAuthController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
+    }
+
+    public function perfil()
+    {
+        return Auth::user();
     }
     // falta algun metodo mas pero, sera cuando lo requiera el front
 }
