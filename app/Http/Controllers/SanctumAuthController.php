@@ -68,4 +68,5 @@ class SanctumAuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+    // falta algun metodo mas pero, sera cuando lo requiera el front
 }
