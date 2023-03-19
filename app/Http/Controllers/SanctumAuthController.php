@@ -34,6 +34,7 @@ class SanctumAuthController extends Controller
         }
     }
 
+    // Para registrar
     public function register(Request $request)
     {
         $request->validate([
@@ -52,12 +53,14 @@ class SanctumAuthController extends Controller
         return response()->json(['mensaje' => 'Usuario Logueado', 'data' => $user], 201);
     }
 
+    // Funcion para cerrar la sesion del usuario
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['mensaje' => 'Sesión cerrada']);
     }
 
+    // Metodo para refrescar el token
     public function refresh(Request $request)
     {
         $user = $request->user();
@@ -70,9 +73,9 @@ class SanctumAuthController extends Controller
         ]);
     }
 
+    // Retorna el perfil del usuario logueado
     public function perfil()
     {
         return Auth::user();
     }
-    // falta algun metodo mas pero, sera cuando lo requiera el front
 }
