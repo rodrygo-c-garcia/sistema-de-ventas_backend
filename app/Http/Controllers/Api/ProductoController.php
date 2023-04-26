@@ -15,6 +15,21 @@ class ProductoController extends Controller
         return response()->json($lista_productos, 200);
     }
 
+    // Funcion para buscar productos
+    public function searchProduct(Request $request)
+    {
+        $productos = [];
+        if ($request->search != '') {
+            $productos = Producto::where('nombre', 'like', "%$request->search%")
+                ->orWhere('cod_barras', 'like', "%$request->search%")
+                ->get();
+        } else {
+            $productos = Producto::all();
+        }
+
+        return response()->json($productos, 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
