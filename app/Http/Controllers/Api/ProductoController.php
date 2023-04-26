@@ -11,8 +11,8 @@ class ProductoController extends Controller
     public function index()
     {
         // especificamos las relaciones que tenemos en el modelo Producto categoria(), imagen()
-        $lista_productos = Producto::with(['categoria', 'imagen'])->get();
-        return response()->json($lista_productos, 200);
+        $productos = Producto::with(['categoria', 'imagen'])->get();
+        return response()->json($productos, 200);
     }
 
     // Funcion para buscar productos
