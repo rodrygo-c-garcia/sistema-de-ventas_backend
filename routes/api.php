@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('producto', ProductoController::class);
+    Route::apiResource('search', [ProductoController::class, 'searchProduct']);
     Route::apiResource('imagen', FotoController::class);
     Route::apiResource('categoria', CategoriaController::class);
 });

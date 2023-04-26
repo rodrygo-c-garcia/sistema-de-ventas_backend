@@ -8,20 +8,37 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     public function index()
     {
         // especificamos las relaciones que tenemos en el modelo Producto categoria(), imagen()
-        $lista_productos = Producto::with(['categoria', 'imagen'])->get();
-        return response()->json($lista_productos, 200);
+        $productos = Producto::with(['categoria', 'imagen'])->get();
+        return response()->json($productos, 200);
+    }
+
+    // Funcion para buscar productos
+    public function searchProduct(Request $request)
+    {
+        $productos = [];
+        if ($request->search != '') {
+            $productos = Producto::where('nombre', 'like', "%$request->search%")
+                ->orWhere('cod_barras', 'like', "%$request->search%")
+                ->get();
+        } else {
+            $productos = Producto::all();
+        }
+
+        return response()->json($productos, 200);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'nombre' => 'required',
-            'stock' => 'required|numeric',
-            'precio_compra' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
+            'stock' => self::REQUIRED_NUMERIC,
+            'precio_compra' => self::REQUIRED_NUMERIC,
+            'precio_venta' => self::REQUIRED_NUMERIC,
         ]);
 
         $producto = new Producto();
@@ -46,10 +63,10 @@ class ProductoController extends Controller
         // Si existe el producto procedemos a guardar
         if ($producto) {
             $request->validate([
-                'nombre' => 'required|required',
-                'stock' => 'required|numeric',
-                'precio_compra' => 'required|numeric',
-                'precio_venta' => 'required|numeric',
+                'nombre' => 'required',
+                'stock' => self::REQUIRED_NUMERIC,
+                'precio_compra' => self::REQUIRED_NUMERIC,
+                'precio_venta' => self::REQUIRED_NUMERIC,
             ]);
 
             $producto->nombre = $request->nombre;
