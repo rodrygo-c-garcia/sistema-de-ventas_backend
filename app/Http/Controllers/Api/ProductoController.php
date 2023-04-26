@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
+    const REQUIRED_NUMERIC = 'required|numeric';
+
     public function index()
     {
         // especificamos las relaciones que tenemos en el modelo Producto categoria(), imagen()
@@ -34,9 +36,9 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required',
-            'stock' => 'required|numeric',
-            'precio_compra' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
+            'stock' => self::REQUIRED_NUMERIC,
+            'precio_compra' => self::REQUIRED_NUMERIC,
+            'precio_venta' => self::REQUIRED_NUMERIC,
         ]);
 
         $producto = new Producto();
@@ -61,10 +63,10 @@ class ProductoController extends Controller
         // Si existe el producto procedemos a guardar
         if ($producto) {
             $request->validate([
-                'nombre' => 'required|required',
-                'stock' => 'required|numeric',
-                'precio_compra' => 'required|numeric',
-                'precio_venta' => 'required|numeric',
+                'nombre' => 'required',
+                'stock' => self::REQUIRED_NUMERIC,
+                'precio_compra' => self::REQUIRED_NUMERIC,
+                'precio_venta' => self::REQUIRED_NUMERIC,
             ]);
 
             $producto->nombre = $request->nombre;
