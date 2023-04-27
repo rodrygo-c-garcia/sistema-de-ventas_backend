@@ -20,12 +20,11 @@ class ProductoController extends Controller
     // Funcion para buscar productos
     public function searchProduct(Request $request)
     {
+        $productos = [];
         if ($request->search != '') {
             $productos = Producto::where('nombre', 'like', '%' . $request->search . '%')
                 ->orWhere('cod_barras', 'like', '%' . $request->search . '%')
                 ->with(['categoria', 'imagen'])->get();
-        } else {
-            $productos = Producto::with(['categoria', 'imagen'])->get();
         }
 
         return response()->json(['mensaje' => 'Productos Encontrados', 'data' => $productos], 200);
