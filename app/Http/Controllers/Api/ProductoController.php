@@ -24,7 +24,7 @@ class ProductoController extends Controller
         if ($request->search != '') {
             $productos = Producto::where('nombre', 'like', '%' . $request->search . '%')
                 ->orWhere('cod_barras', 'like', '%' . $request->search . '%')
-                ->with(['categoria', 'imagen'])->get()
+                ->with(['categoria', 'imagen'])
                 ->paginate(5);
         }
 
