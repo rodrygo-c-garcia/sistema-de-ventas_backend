@@ -12,7 +12,7 @@ class ProductoController extends Controller
 
     public function index()
     {
-        // especificamos las relaciones que tenemos en el modelo Producto categoria(), imagen()
+        // especificamos las relacio.nes que tenemos en el modelo Producto categoria(), imagen()
         $productos = Producto::with(['categoria', 'imagen'])->get();
         return response()->json($productos, 200);
     }
@@ -22,14 +22,13 @@ class ProductoController extends Controller
     {
         $productos = [];
         if ($request->search != '') {
-            $productos = Producto::where('nombre', 'like', "%$request->search%")
-                ->orWhere('cod_barras', 'like', "%$request->search%")
-                ->get();
-        } else {
-            $productos = Producto::all();
+            $productos = Producto::where('nombre', 'like', '%' . $request->search . '%')
+                ->orWhere('cod_barras', 'like', '%' . $request->search . '%')
+                ->with(['categoria', 'imagen'])
+                ->paginate(5);
         }
 
-        return response()->json($productos, 200);
+        return response()->json(['mensaje' => 'Productos Encontrados', 'data' => $productos], 200);
     }
 
     public function store(Request $request)
