@@ -26,10 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-Route::apiResource('producto', ProductoController::class);
-Route::apiResource('imagen', FotoController::class);
-Route::apiResource('categoria', CategoriaController::class);
-
 // SANCTUM
 Route::post('login', [SanctumAuthController::class, 'login']);
 Route::post('register', [SanctumAuthController::class, 'register']);
