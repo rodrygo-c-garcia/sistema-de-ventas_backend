@@ -20,16 +20,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('producto', ProductoController::class);
+    // ruta para especificar el metodo de SearchProduct
     Route::get('search', [ProductoController::class, 'searchProduct']);
     Route::apiResource('imagen', FotoController::class);
     Route::apiResource('categoria', CategoriaController::class);
 });
 
 
-// SANCTUM
 Route::post('login', [SanctumAuthController::class, 'login']);
 Route::post('register', [SanctumAuthController::class, 'register']);
 
+// SANCTUM
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('perfil', [SanctumAuthController::class, 'perfil']);
     Route::post('refresh', [SanctumAuthController::class, 'refresh']);
