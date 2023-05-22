@@ -10,8 +10,8 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        $lista_categoria = Categoria::all();
-        return response()->json($lista_categoria, 200);
+        $categorias = Categoria::all();
+        return response()->json($categorias, 200);
     }
 
     public function store(Request $request)
