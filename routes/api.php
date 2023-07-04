@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Rutas protegidas con AUTH_SANCTUM
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('producto', ProductoController::class);
     // ruta para especificar el metodo de SearchProduct
@@ -26,11 +27,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('categoria', CategoriaController::class);
 });
 
-
+// Rutas Publicas
 Route::post('login', [SanctumAuthController::class, 'login']);
 Route::post('register', [SanctumAuthController::class, 'register']);
 
-// SANCTUM
+// AUTH_SANCTUM para Usuario
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('perfil', [SanctumAuthController::class, 'perfil']);
     Route::post('refresh', [SanctumAuthController::class, 'refresh']);
