@@ -21,7 +21,7 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         // Validamos los datos que veamos mas convenientes e importantes
-        $request->validate([
+        $request->validateWithBag('pedido', [
             'cod_factura' => 'required|unique:pedidos',
             'cliente_id' => 'required',
             'productos' => 'required'
@@ -34,18 +34,19 @@ class PedidoController extends Controller
             // Buscamos cliente en nuestra base de datos
             $cliente = Cliente::findOrFail($request->cliente_id);
 
-            // Generamos el pedido
-            $pedido = new Pedido();
-            $pedido->cod_factura = $request->cod_factura;
-            $pedido->cliente_id = $cliente->id;
-            $pedido->user_id = $user->id;
-            $pedido->monto_total = $request->monto_total;
-            $pedido->utilidad = $request->utilidad;
-            $pedido->estado = 0;
+            // Generamos el pedido con sus atributos
+            $pedido = Pedido::create([
+                'cod_factura' => $request->cod_factura,
+                'cliente_id' => $cliente->id,
+                'user_id' => $user->id,
+                'monto_total' => $request->monto_total,
+                'utilidad' => $request->utilidad,
+                'estado' => 0
+            ]);
 
             // Validar la cantidad de productos valido para su registro
             if (count($request->productos) > 0) {
-                // recprremos cada producto de nuestro arreglo productos
+                // recorremos cada producto de nuestro arreglo productos
                 foreach ($request->productos as $prod) {
                     $productoId = $prod['producto_id'];
                     $cantidad = $prod['cantidad'];
@@ -55,10 +56,8 @@ class PedidoController extends Controller
 
                     // verificamos si la cantidad del pruducto es valido con el stock que tenemos
                     if ($producto->stock >= $cantidad) {
-                        // Indicamos la relacion de muchos a muchos
-                        $pedido->productos()->attach($productoId, [
-                            'cantidad' => $cantidad
-                        ]);
+                        // Indicamos la relacion de muchos a muchos con los datos adicionales
+                        $pedido->productos()->sync([$productoId => ['cantidad' => $cantidad]]);
                     } else {
                         return response()->json(
                             [
@@ -71,10 +70,20 @@ class PedidoController extends Controller
                     }
                 }
             }
+
+            // Completar pedido
+            $pedido->estado = 2;
+            $pedido->save();
+
+            return response()->json([
+                'message' => 'Pedido completado',
+                'error' => false,
+                'status' => 200
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(
                 [
-                    'message' => 'El cliente o productos son obligatorios',
+                    'message' => $e->getMessage(),
                     'error' => true,
                     'status' => 422
                 ],
