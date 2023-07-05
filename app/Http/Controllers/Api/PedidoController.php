@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use App\Models\Pedido;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,27 @@ class PedidoController extends Controller
 
             // Validar la cantidad de productos valido para su registro
             if (count($request->productos) > 0) {
+                // recprremos cada producto de nuestro arreglo productos
+                foreach ($request->productos as $prod) {
+                    $productoId = $prod['producto_id'];
+                    $cantidad = $prod['cantidad'];
+
+                    // obtenemos y verificamos si el id del producto existe en nuestra base de datos
+                    $producto = Producto::findOrFail($productoId);
+
+                    // verificamos si la cantidad del pruducto es valido con el stock que tenemos
+                    if ($producto->stock >= $cantidad) {
+                    } else {
+                        return response()->json(
+                            [
+                                'menssage' => 'La cantidad del producto es mayor al stock',
+                                'error' => true,
+                                'status' => 400
+                            ],
+                            400
+                        );
+                    }
+                }
             }
         } catch (\Exception $e) {
             return response()->json(
