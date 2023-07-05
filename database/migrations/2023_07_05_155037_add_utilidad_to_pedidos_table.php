@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('productos', function (Blueprint $table) {
-            $table->string('cod_barras')->change();
+        Schema::table('pedidos', function (Blueprint $table) {
+            $table->decimal('utilidad', 10, 2)->default(0);
         });
     }
 
-    /**`
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('pedidos', function (Blueprint $table) {
+            $table->dropColumn('utilidad');
+        });
     }
 };
