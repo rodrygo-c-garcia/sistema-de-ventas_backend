@@ -55,6 +55,10 @@ class PedidoController extends Controller
 
                     // verificamos si la cantidad del pruducto es valido con el stock que tenemos
                     if ($producto->stock >= $cantidad) {
+                        // Indicamos la relacion de muchos a muchos
+                        $pedido->productos()->attach($productoId, [
+                            'cantidad' => $cantidad
+                        ]);
                     } else {
                         return response()->json(
                             [
