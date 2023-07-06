@@ -10,6 +10,9 @@ class Pedido extends Model
     use HasFactory;
     protected $table = 'pedidos';
 
+    // Para la asignacion masiva de los campos
+    protected $fillable = ['cod_factura', 'cliente_id', 'user_id', 'monto_total', 'utilidad', 'estado'];
+
     public function clientes()
     {
         return $this->belongsTo(Cliente::class);
