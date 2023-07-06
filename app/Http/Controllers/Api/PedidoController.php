@@ -43,6 +43,7 @@ class PedidoController extends Controller
                 'utilidad' => $request->utilidad,
                 'estado' => 0
             ]);
+            $pedido->save();
 
             // Validar la cantidad de productos valido para su registro
             if (count($request->productos) > 0) {
