@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProductoController;
 use App\Http\Controllers\Api\FotoController;
 use App\Http\Controllers\Api\PedidoController;
+use App\Http\Controllers\Api\ClienteController;
 use App\Http\Controllers\SanctumAuthController;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('search', [ProductoController::class, 'searchProduct']);
     Route::apiResource('imagen', FotoController::class);
     Route::apiResource('categoria', CategoriaController::class);
+    Route::apiResource('cliente', ClienteController::class);
 });
 
 // Rutas Publicas
