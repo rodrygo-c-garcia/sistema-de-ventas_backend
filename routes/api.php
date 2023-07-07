@@ -3,7 +3,9 @@
 use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProductoController;
 use App\Http\Controllers\Api\FotoController;
+use App\Http\Controllers\Api\PedidoController;
 use App\Http\Controllers\SanctumAuthController;
+use App\Models\Pedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 // Rutas protegidas con AUTH_SANCTUM
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('producto', ProductoController::class);
+    Route::apiResource('pedido', PedidoController::class);
     // ruta para especificar el metodo de SearchProduct
     Route::get('search', [ProductoController::class, 'searchProduct']);
     Route::apiResource('imagen', FotoController::class);
