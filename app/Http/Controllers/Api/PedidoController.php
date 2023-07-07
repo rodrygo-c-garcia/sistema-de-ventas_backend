@@ -35,7 +35,7 @@ class PedidoController extends Controller
             $cliente = Cliente::findOrFail($request->cliente_id);
 
             // Generamos el pedido con sus atributos
-            $pedido = Pedido::create([
+            $pedido = new Pedido([
                 'cod_factura' => $request->cod_factura,
                 'cliente_id' => $cliente->id,
                 'user_id' => $user->id,
