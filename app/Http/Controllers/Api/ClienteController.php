@@ -28,5 +28,10 @@ class ClienteController extends Controller
             'nit' => $request->nit,
             'direccion' => $request->direccion,
         ]);
+
+        return response()->json([
+            "mensaje" => "Cliente creado con exito",
+            "status" => 200
+        ], 200);
     }
 }
