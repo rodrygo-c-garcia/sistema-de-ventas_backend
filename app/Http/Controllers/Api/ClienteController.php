@@ -17,6 +17,30 @@ class ClienteController extends Controller
         return response()->json($customers, 200);
     }
 
+    public function searchCustomer(Request $request)
+    {
+        // Validamos que de que nuestro request tenga un campo llamado search
+        $request->validate([
+            'search' => 'nullable|string'
+        ]);
+
+        // obtenemos el termino de busqueda
+        $searchTerm = '%' . $request->search . '%';
+
+        // Verificamos si el campo search existe y si tiene un valor
+        if ($request->has('search') && $request->filled('search')) {
+            // Realizamos la consulta solo si el campo search tiene un valor
+            $customersSearched = Cliente::where('nombre_completo', 'like', $searchTerm)
+                ->orWhere('nit', 'like', $searchTerm)
+                ->paginate(5);
+        } else {
+            // Si el campo search está vacío o no está presente, retornamos una respuesta vacía
+            $customersSearched = collect();
+        }
+
+        return response()->json(['message' => 'Clientes encontrados', 'data' => $customersSearched], 200);
+    }
+
     // funcion para guardar un registro de cliente
     public function store(Request $request)
     {
