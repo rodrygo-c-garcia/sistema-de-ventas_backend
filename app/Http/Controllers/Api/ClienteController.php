@@ -24,6 +24,14 @@ class ClienteController extends Controller
             'search' => 'required|string'
         ]);
 
+        // obtenemos el termino de busqueda
+        $searchTerm = '%' . $request->search . '%';
+
+        $customersSearched = Cliente::when($request->search, function ($query) use ($searchTerm) {
+            return $query->where('nombre_completo', 'like', $searchTerm)
+                ->orWhere('nit', 'like', $searchTerm);
+        })->paginate(5);
+
         // return response()->json(['message' => 'Clientes encontrados', 'data' => $customersSearched], 200);
     }
 
