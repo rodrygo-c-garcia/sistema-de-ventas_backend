@@ -17,6 +17,16 @@ class ClienteController extends Controller
         return response()->json($customers, 200);
     }
 
+    public function searchCustomer(Request $request)
+    {
+        // Validamos que de que nuestro request tenga un campo llamado search
+        $request->validate([
+            'search' => 'required|string'
+        ]);
+
+        // return response()->json(['message' => 'Clientes encontrados', 'data' => $customersSearched], 200);
+    }
+
     // funcion para guardar un registro de cliente
     public function store(Request $request)
     {
