@@ -32,7 +32,7 @@ class ClienteController extends Controller
                 ->orWhere('nit', 'like', $searchTerm);
         })->paginate(5);
 
-        // return response()->json(['message' => 'Clientes encontrados', 'data' => $customersSearched], 200);
+        return response()->json(['message' => 'Clientes encontrados', 'data' => $customersSearched], 200);
     }
 
     // funcion para guardar un registro de cliente
