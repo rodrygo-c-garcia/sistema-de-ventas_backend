@@ -27,6 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('pedido', PedidoController::class);
     // ruta para especificar el metodo de SearchProduct
     Route::get('search', [ProductoController::class, 'searchProduct']);
+    // recurso para buscar cliente usando el metodo searchCustomer
+    Route::get('searchCustomer', [ClienteController::class, 'searchCustomer']);
+
     Route::apiResource('imagen', FotoController::class);
     Route::apiResource('categoria', CategoriaController::class);
     Route::apiResource('cliente', ClienteController::class);
