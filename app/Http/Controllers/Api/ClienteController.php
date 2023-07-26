@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    public function index()
+    {
+        // obtemos los clientes paginados de 5 en 5
+        $customers = Cliente::paginate(5);
+        return response()->json($customers, 200);
+    }
+
     // funcion para guardar un registro de cliente
     public function store(Request $request)
     {
