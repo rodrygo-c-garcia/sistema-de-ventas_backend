@@ -12,6 +12,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
+        // obtemos los clientes paginados de 5 en 5
         $customers = Cliente::paginate(5);
         return response()->json($customers, 200);
     }
