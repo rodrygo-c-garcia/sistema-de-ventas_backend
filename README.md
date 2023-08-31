@@ -1,7 +1,9 @@
 <h1>Sistema de Ventas (Back)</h1>
 
 
-https://github.com/rodrygo-c-garcia/sistema-de-ventas_backend/assets/43041624/1399257b-75e9-461b-8e05-86026aa8cac9
+https://github.com/rodrygo-c-garcia/sistema-de-ventas_backend/assets/43041624/f7235a19-43b0-4dcd-996f-e27de78db2c2
+
+
 
 
 
